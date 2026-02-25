@@ -44,15 +44,12 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Create Release PR or Publish
-        id: changesets
-        uses: changesets/action@v1
-        with:
-          version: pnpm version-packages
-          publish: pnpm release
-          title: "chore: release"
-          commit: "chore: release"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Publish to npm
+        run: pnpm publish --access public --no-git-checks
+
+      - name: Create GitHub Release
+        run: |
+          TAG_NAME="v$(node -p \"require('./package.json').version\")"
+          gh release create "$TAG_NAME" \
+            --generate-notes \
+            --title "$TAG_NAME"
