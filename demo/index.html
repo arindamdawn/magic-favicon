@@ -317,9 +317,10 @@
         </article>
       </section>
     </div>
-    <script src="https://unpkg.com/magic-favicon/dist/index.global.js"></script>
-    <script>
-      const favicon = window.magicFavicon;
+    <script type="module">
+      import favicon from 'https://unpkg.com/magic-favicon/dist/index.js';
+      
+      window.favicon = favicon;
 
       let progressTimer = null;
       let suiteTimers = [];
