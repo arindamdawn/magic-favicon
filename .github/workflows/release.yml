@@ -16,14 +16,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Get version
-        id: version
-        run: echo "version=$(node -e 'console.log(require(\"./package.json\").version)')" >> $GITHUB_OUTPUT
-
       - name: Check if version already published
         run: |
-          if npm view magic-favicon@${{ steps.version.outputs.version }} version &>/dev/null; then
-            echo "Version ${{ steps.version.outputs.version }} already published. Skipping release."
+          VERSION=$(node -e 'console.log(require("./package.json").version)')
+          if npm view magic-favicon@$VERSION version &>/dev/null; then
+            echo "Version $VERSION already published. Skipping release."
             exit 1
           fi
 
