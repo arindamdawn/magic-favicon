@@ -243,6 +243,8 @@
             <button id="status-success" class="ghost">Success</button>
             <button id="status-warning" class="ghost">Warning</button>
             <button id="status-error" class="ghost">Error</button>
+            <button id="status-cross" class="ghost">Cross</button>
+            <button id="status-check" class="ghost">Check</button>
           </div>
           <div class="row">
             <label for="status-success-color">Success Color</label>
@@ -460,6 +462,8 @@
       input("status-success").addEventListener("click", () => applyStatus("success"));
       input("status-warning").addEventListener("click", () => applyStatus("warning"));
       input("status-error").addEventListener("click", () => applyStatus("error"));
+      input("status-cross").addEventListener("click", () => applyStatus("cross"));
+      input("status-check").addEventListener("click", () => applyStatus("check"));
 
       input("start-pulse").addEventListener("click", () => {
         stopProgressSimulation();
