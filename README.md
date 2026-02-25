@@ -1,8 +1,8 @@
 # magic-favicon
 
-![npm bundle size](https://img.shields.io/bundlephobia/minzip/magic-favicon)
 ![npm version](https://img.shields.io/npm/v/magic-favicon)
-![license](https://img.shields.io/npm/l/magic-favicon)
+![CI](https://github.com/arindamdawn/magic-favicon/actions/workflows/ci.yml/badge.svg)
+![License](https://img.shields.io/github/license/arindamdawn/magic-favicon)
 
 Tiny, dependency-free favicon state indicators for modern web apps.
 
