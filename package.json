@@ -10,6 +10,10 @@
   "unpkg": "./dist/index.global.js",
   "jsdelivr": "./dist/index.global.js",
   "types": "./dist/index.d.ts",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
