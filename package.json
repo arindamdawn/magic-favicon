@@ -29,7 +29,8 @@
     "test:watch": "vitest",
     "size": "npm run build >/dev/null && gzip -c dist/index.js | wc -c | tr -d ' '",
     "size:check": "SIZE=$(npm run -s size); if [ \"$SIZE\" -gt 5120 ]; then echo \"Size budget exceeded: $SIZE bytes\"; exit 1; else echo \"Gzip size: $SIZE bytes\"; fi",
-    "check": "npm run build && npm run test && npm run size:check"
+    "check": "npm run build && npm run test && npm run size:check",
+    "release": "changeset publish"
   },
   "keywords": [
     "favicon",
