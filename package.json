@@ -1,0 +1,49 @@
+{
+  "name": "magic-favicon",
+  "version": "0.1.0",
+  "description": "Transform favicons into dynamic progress bars, status indicators, and notification badges.",
+  "license": "MIT",
+  "author": "magic-favicon contributors",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "unpkg": "./dist/index.global.js",
+  "jsdelivr": "./dist/index.global.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs,iife --dts --global-name magicFavicon --clean --minify",
+    "dev": "vite demo --host",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "size": "npm run build >/dev/null && gzip -c dist/index.js | wc -c | tr -d ' '",
+    "size:check": "SIZE=$(npm run -s size); if [ \"$SIZE\" -gt 5120 ]; then echo \"Size budget exceeded: $SIZE bytes\"; exit 1; else echo \"Gzip size: $SIZE bytes\"; fi",
+    "check": "npm run build && npm run test && npm run size:check"
+  },
+  "keywords": [
+    "favicon",
+    "progress",
+    "badge",
+    "status",
+    "browser"
+  ],
+  "devDependencies": {
+    "@changesets/cli": "^2.29.8",
+    "jsdom": "^25.0.1",
+    "tsup": "^8.3.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.2.0",
+    "vitest": "^2.1.8"
+  }
+}

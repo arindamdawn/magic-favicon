@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>magic-favicon playground</title>
+    <link rel="icon" href="/vite.svg" />
+    <style>
+      :root {
+        --bg: radial-gradient(circle at 10% 10%, #fff3cc, #d6f4ff 36%, #eef2ff 75%);
+        --panel: #ffffffd9;
+        --text: #19263d;
+        --muted: #51617d;
+        --accent: #0f4fa8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Avenir Next", "Gill Sans", sans-serif;
+        color: var(--text);
+        background: var(--bg);
+      }
+      .wrap {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 28px 16px 64px;
+      }
+      .hero {
+        background: #102c56;
+        color: #eaf3ff;
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 18px 36px rgba(16, 43, 87, 0.26);
+      }
+      .hero h1 {
+        margin: 0 0 8px;
+        letter-spacing: 0.4px;
+      }
+      .hero p {
+        margin: 0;
+        color: #d1e5ff;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+        margin-top: 14px;
+      }
+      .panel {
+        background: var(--panel);
+        border-radius: 16px;
+        padding: 16px;
+        box-shadow: 0 12px 24px rgba(20, 42, 78, 0.12);
+      }
+      .panel h2 {
+        margin: 0 0 2px;
+        font-size: 18px;
+      }
+      .sub {
+        color: var(--muted);
+        margin: 0 0 12px;
+        font-size: 13px;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 140px 1fr auto;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 9px;
+      }
+      input[type="range"],
+      input[type="number"],
+      input[type="color"] {
+        width: 100%;
+      }
+      input[type="checkbox"] {
+        transform: scale(1.1);
+      }
+      button {
+        border: 0;
+        border-radius: 10px;
+        padding: 9px 12px;
+        background: var(--accent);
+        color: #fff;
+        cursor: pointer;
+      }
+      .ghost {
+        background: #3f5f93;
+      }
+      .stack {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .pill {
+        font-size: 12px;
+        border-radius: 999px;
+        background: #e8f2ff;
+        color: #1f4b88;
+        padding: 4px 10px;
+      }
+      #log {
+        margin: 10px 0 0;
+        color: #294c7f;
+        font-size: 13px;
+      }
+      @media (max-width: 860px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 560px) {
+        .row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="hero">
+        <h1>magic-favicon playground</h1>
+        <p>Try every feature and option, then look at this tab icon.</p>
+        <div class="stack" style="margin-top: 10px">
+          <span class="pill">Progress</span>
+          <span class="pill">Pie</span>
+          <span class="pill">Badge</span>
+          <span class="pill">Status</span>
+          <span class="pill">Pulse</span>
+          <span class="pill">Presets</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Progress Bar</h2>
+          <p class="sub">Horizontal overlay with configurable color, track, and height ratio.</p>
+          <div class="row">
+            <label for="progress">Value</label>
+            <input id="progress" type="range" min="0" max="100" value="45" />
+            <output id="progress-out">45</output>
+          </div>
+          <div class="row">
+            <label for="progress-color">Bar Color</label>
+            <input id="progress-color" type="color" value="#0ea5e9" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="progress-track">Track Color</label>
+            <input id="progress-track" type="color" value="#334155" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="progress-height">Height Ratio</label>
+            <input id="progress-height" type="range" min="0.1" max="0.6" step="0.01" value="0.22" />
+            <output id="progress-height-out">0.22</output>
+          </div>
+          <div class="row">
+            <label for="progress-size">Size Ratio</label>
+            <input id="progress-size" type="range" min="0.4" max="1.6" step="0.01" value="1" />
+            <output id="progress-size-out">1.00</output>
+          </div>
+          <div class="row">
+            <label for="progress-base">Preserve Base</label>
+            <input id="progress-base" type="checkbox" checked />
+            <span></span>
+          </div>
+          <div class="stack">
+            <button id="apply-progress">Apply</button>
+            <button id="simulate-progress" class="ghost">Simulate 0→100</button>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Pie</h2>
+          <p class="sub">Circular progress ring with custom stroke width and colors.</p>
+          <div class="row">
+            <label for="pie">Value</label>
+            <input id="pie" type="range" min="0" max="100" value="72" />
+            <output id="pie-out">72</output>
+          </div>
+          <div class="row">
+            <label for="pie-color">Ring Color</label>
+            <input id="pie-color" type="color" value="#22c55e" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="pie-track">Track Color</label>
+            <input id="pie-track" type="color" value="#64748b" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="pie-width">Line Width</label>
+            <input id="pie-width" type="range" min="2" max="10" step="1" value="5" />
+            <output id="pie-width-out">5</output>
+          </div>
+          <div class="row">
+            <label for="pie-size">Size Ratio</label>
+            <input id="pie-size" type="range" min="0.4" max="1.6" step="0.01" value="1" />
+            <output id="pie-size-out">1.00</output>
+          </div>
+          <div class="row">
+            <label for="pie-base">Preserve Base</label>
+            <input id="pie-base" type="checkbox" checked />
+            <span></span>
+          </div>
+          <button id="apply-pie">Apply</button>
+        </article>
+
+        <article class="panel">
+          <h2>Badge & Status</h2>
+          <p class="sub">Notification count and status signals with custom palettes.</p>
+          <div class="row">
+            <label for="badge">Badge Count</label>
+            <input id="badge" type="range" min="0" max="120" value="8" />
+            <output id="badge-out">8</output>
+          </div>
+          <div class="row">
+            <label for="badge-bg">Badge BG</label>
+            <input id="badge-bg" type="color" value="#ef4444" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="badge-text">Badge Text</label>
+            <input id="badge-text" type="color" value="#ffffff" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="badge-base">Preserve Base</label>
+            <input id="badge-base" type="checkbox" checked />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="badge-size">Size Ratio</label>
+            <input id="badge-size" type="range" min="0.4" max="1.6" step="0.01" value="1" />
+            <output id="badge-size-out">1.00</output>
+          </div>
+          <div class="stack" style="margin-bottom: 10px">
+            <button id="apply-badge">Apply Badge</button>
+            <button id="status-success" class="ghost">Success</button>
+            <button id="status-warning" class="ghost">Warning</button>
+            <button id="status-error" class="ghost">Error</button>
+          </div>
+          <div class="row">
+            <label for="status-success-color">Success Color</label>
+            <input id="status-success-color" type="color" value="#22c55e" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="status-warning-color">Warning Color</label>
+            <input id="status-warning-color" type="color" value="#f59e0b" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="status-error-color">Error Color</label>
+            <input id="status-error-color" type="color" value="#ef4444" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="status-base">Preserve Base</label>
+            <input id="status-base" type="checkbox" checked />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="status-size">Size Ratio</label>
+            <input id="status-size" type="range" min="0.4" max="1.6" step="0.01" value="1" />
+            <output id="status-size-out">1.00</output>
+          </div>
+        </article>
+
+        <article class="panel">
+          <h2>Pulse, Presets, Utilities</h2>
+          <p class="sub">Animation timing controls, pre-built scenarios, and reset tools.</p>
+          <div class="row">
+            <label for="pulse-color">Pulse Color</label>
+            <input id="pulse-color" type="color" value="#3b82f6" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="pulse-period">Period (ms)</label>
+            <input id="pulse-period" type="number" min="300" max="5000" value="1300" step="100" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="pulse-tick">Tick (ms)</label>
+            <input id="pulse-tick" type="number" min="16" max="1000" value="80" step="16" />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="pulse-base">Preserve Base</label>
+            <input id="pulse-base" type="checkbox" checked />
+            <span></span>
+          </div>
+          <div class="row">
+            <label for="pulse-size">Size Ratio</label>
+            <input id="pulse-size" type="range" min="0.4" max="1.6" step="0.01" value="1" />
+            <output id="pulse-size-out">1.00</output>
+          </div>
+          <div class="stack" style="margin-bottom: 10px">
+            <button id="start-pulse">Start Pulse</button>
+            <button id="start-spin" class="ghost">Start Spin</button>
+            <button id="stop-pulse" class="ghost">Stop / Reset</button>
+          </div>
+          <div class="stack" style="margin-bottom: 10px">
+            <button id="preset-upload">Preset: Uploading</button>
+            <button id="preset-alert" class="ghost">Preset: Alerts</button>
+            <button id="preset-idle" class="ghost">Preset: Idle</button>
+          </div>
+          <div class="stack">
+            <button id="reset-all">Reset</button>
+            <button id="run-suite" class="ghost">Run Quick Suite</button>
+          </div>
+          <p id="log" aria-live="polite"></p>
+        </article>
+      </section>
+    </div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
