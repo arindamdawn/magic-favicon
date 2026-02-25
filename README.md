@@ -4,6 +4,8 @@
 ![CI](https://github.com/arindamdawn/magic-favicon/actions/workflows/ci.yml/badge.svg)
 ![License](https://img.shields.io/github/license/arindamdawn/magic-favicon)
 
+**[Live Demo](https://arindamdawn.github.io/magic-favicon/)**
+
 Tiny, dependency-free favicon state indicators for modern web apps.
 
 `magic-favicon` turns your tab icon into a compact status surface for progress, notifications, health states, and activity animation without mutating the page title.
