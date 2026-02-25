@@ -1,6 +1,6 @@
 {
   "name": "magic-favicon",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Transform favicons into dynamic progress bars, status indicators, and notification badges.",
   "license": "MIT",
   "author": "magic-favicon contributors",

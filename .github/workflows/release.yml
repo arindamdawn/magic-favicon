@@ -18,7 +18,7 @@ jobs:
 
       - name: Get version
         id: version
-        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+        run: echo "version=$(node -e 'console.log(require(\"./package.json\").version)')" >> $GITHUB_OUTPUT
 
       - name: Check if version already published
         run: |
@@ -60,7 +60,7 @@ jobs:
 
       - name: Create GitHub Release
         run: |
-          TAG_NAME="v$(node -p \"require('./package.json').version\")"
+          TAG_NAME="v$(node -e 'console.log(require(\"./package.json\").version)')"
           gh release create "$TAG_NAME" \
             --generate-notes \
             --title "$TAG_NAME"
