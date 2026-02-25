@@ -6,6 +6,8 @@
 
 **[Live Demo](https://arindamdawn.github.io/magic-favicon/)**
 
+![Demo](demo/demo.gif)
+
 Tiny, dependency-free favicon state indicators for modern web apps.
 
 `magic-favicon` turns your tab icon into a compact status surface for progress, notifications, health states, and activity animation without mutating the page title.
