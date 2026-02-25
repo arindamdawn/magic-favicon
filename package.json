@@ -33,7 +33,9 @@
     "test:watch": "vitest",
     "size": "npm run build >/dev/null && gzip -c dist/index.js | wc -c | tr -d ' '",
     "size:check": "SIZE=$(npm run -s size); if [ \"$SIZE\" -gt 5120 ]; then echo \"Size budget exceeded: $SIZE bytes\"; exit 1; else echo \"Gzip size: $SIZE bytes\"; fi",
-    "check": "npm run build && npm run test && npm run size:check",
+    "check": "npm run build && npm run test && npm run lint && npm run size:check",
+    "lint": "eslint src test",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "release": "changeset publish"
   },
   "keywords": [
@@ -45,7 +47,13 @@
   ],
   "devDependencies": {
     "@changesets/cli": "^2.29.8",
+    "@eslint/js": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^8.56.1",
+    "@typescript-eslint/parser": "^8.56.1",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
     "jsdom": "^25.0.1",
+    "prettier": "^3.8.1",
     "tsup": "^8.3.0",
     "typescript": "^5.7.2",
     "vite": "^6.2.0",

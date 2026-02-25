@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>magic-favicon playground</title>
-    <link rel="icon" href="/vite.svg" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>" />
     <style>
       :root {
         --bg: radial-gradient(circle at 10% 10%, #fff3cc, #d6f4ff 36%, #eef2ff 75%);
@@ -317,6 +317,218 @@
         </article>
       </section>
     </div>
-    <script type="module" src="./main.ts"></script>
+    <script src="https://unpkg.com/magic-favicon/dist/index.global.js"></script>
+    <script>
+      const favicon = window.magicFavicon;
+
+      let progressTimer = null;
+      let suiteTimers = [];
+
+      const input = (id) => {
+        const el = document.getElementById(id);
+        if (!el) throw new Error(`Missing demo element: ${id}`);
+        return el;
+      };
+
+      const setOutput = (id, value) => {
+        input(id).value = value;
+      };
+
+      const log = (message) => {
+        input("log").textContent = message;
+      };
+
+      const bindRangeOutput = (rangeId, outputId) => {
+        const range = input(rangeId);
+        const sync = () => setOutput(outputId, range.value);
+        sync();
+        range.addEventListener("input", sync);
+      };
+
+      bindRangeOutput("progress", "progress-out");
+      bindRangeOutput("progress-height", "progress-height-out");
+      bindRangeOutput("progress-size", "progress-size-out");
+      bindRangeOutput("pie", "pie-out");
+      bindRangeOutput("pie-width", "pie-width-out");
+      bindRangeOutput("pie-size", "pie-size-out");
+      bindRangeOutput("badge", "badge-out");
+      bindRangeOutput("badge-size", "badge-size-out");
+      bindRangeOutput("status-size", "status-size-out");
+      bindRangeOutput("pulse-size", "pulse-size-out");
+
+      const progressOptions = () => ({
+        color: input("progress-color").value,
+        trackColor: input("progress-track").value,
+        heightRatio: Number(input("progress-height").value),
+        sizeRatio: Number(input("progress-size").value),
+        preserveBase: input("progress-base").checked
+      });
+
+      const pieOptions = () => ({
+        color: input("pie-color").value,
+        trackColor: input("pie-track").value,
+        lineWidth: Number(input("pie-width").value),
+        sizeRatio: Number(input("pie-size").value),
+        preserveBase: input("pie-base").checked
+      });
+
+      const badgeOptions = () => ({
+        bgColor: input("badge-bg").value,
+        textColor: input("badge-text").value,
+        sizeRatio: Number(input("badge-size").value),
+        preserveBase: input("badge-base").checked
+      });
+
+      const statusOptions = () => ({
+        successColor: input("status-success-color").value,
+        warningColor: input("status-warning-color").value,
+        errorColor: input("status-error-color").value,
+        sizeRatio: Number(input("status-size").value),
+        preserveBase: input("status-base").checked
+      });
+
+      const pulseOptions = () => ({
+        color: input("pulse-color").value,
+        periodMs: Number(input("pulse-period").value),
+        tickMs: Number(input("pulse-tick").value),
+        sizeRatio: Number(input("pulse-size").value),
+        preserveBase: input("pulse-base").checked
+      });
+
+      const stopProgressSimulation = () => {
+        if (progressTimer !== null) {
+          clearInterval(progressTimer);
+          progressTimer = null;
+        }
+      };
+
+      const stopSuite = () => {
+        if (suiteTimers.length) {
+          suiteTimers.forEach((timer) => clearTimeout(timer));
+          suiteTimers = [];
+        }
+      };
+
+      const applyStatus = (kind) => {
+        favicon.status(kind, statusOptions());
+        log(`Applied ${kind} status`);
+      };
+
+      input("apply-progress").addEventListener("click", () => {
+        stopProgressSimulation();
+        const value = Number(input("progress").value);
+        favicon.progress(value, progressOptions());
+        log(`Applied progress ${value}%`);
+      });
+
+      input("simulate-progress").addEventListener("click", () => {
+        stopProgressSimulation();
+        stopSuite();
+        let value = 0;
+        const progress = input("progress");
+        progress.value = String(value);
+        setOutput("progress-out", String(value));
+        log("Running progress simulation");
+
+        progressTimer = window.setInterval(() => {
+          favicon.progress(value, progressOptions());
+          progress.value = String(value);
+          setOutput("progress-out", String(value));
+          value += 5;
+          if (value > 100) {
+            stopProgressSimulation();
+            log("Progress simulation complete");
+          }
+        }, 180);
+      });
+
+      input("apply-pie").addEventListener("click", () => {
+        stopProgressSimulation();
+        const value = Number(input("pie").value);
+        favicon.pie(value, pieOptions());
+        log(`Applied pie ${value}%`);
+      });
+
+      input("apply-badge").addEventListener("click", () => {
+        stopProgressSimulation();
+        const count = Number(input("badge").value);
+        favicon.badge(count, badgeOptions());
+        log(`Applied badge ${count}`);
+      });
+
+      input("status-success").addEventListener("click", () => applyStatus("success"));
+      input("status-warning").addEventListener("click", () => applyStatus("warning"));
+      input("status-error").addEventListener("click", () => applyStatus("error"));
+
+      input("start-pulse").addEventListener("click", () => {
+        stopProgressSimulation();
+        favicon.pulse(pulseOptions());
+        log("Started pulse");
+      });
+
+      input("start-spin").addEventListener("click", () => {
+        stopProgressSimulation();
+        favicon.spin(pulseOptions());
+        log("Started spin");
+      });
+
+      input("stop-pulse").addEventListener("click", () => {
+        stopProgressSimulation();
+        favicon.reset();
+        log("Stopped pulse and reset favicon");
+      });
+
+      input("preset-upload").addEventListener("click", () => {
+        stopProgressSimulation();
+        favicon.progress(64, { color: "#2563eb", trackColor: "#0f172a", heightRatio: 0.2, preserveBase: true });
+        log("Preset applied: Uploading");
+      });
+
+      input("preset-alert").addEventListener("click", () => {
+        stopProgressSimulation();
+        favicon.badge(12, { bgColor: "#dc2626", textColor: "#ffffff", preserveBase: true });
+        log("Preset applied: Alerts");
+      });
+
+      input("preset-idle").addEventListener("click", () => {
+        stopProgressSimulation();
+        favicon.status("success", { successColor: "#16a34a", preserveBase: true });
+        log("Preset applied: Idle");
+      });
+
+      input("reset-all").addEventListener("click", () => {
+        stopProgressSimulation();
+        stopSuite();
+        favicon.reset();
+        log("Reset favicon");
+      });
+
+      input("run-suite").addEventListener("click", () => {
+        stopProgressSimulation();
+        stopSuite();
+
+        log("Running quick suite: progress -> pie -> badge -> status -> pulse");
+        favicon.progress(35, { color: "#0284c7", trackColor: "#334155", heightRatio: 0.2 });
+
+        suiteTimers.push(window.setTimeout(() => {
+          favicon.pie(78, { color: "#16a34a", trackColor: "#64748b", lineWidth: 5 });
+        }, 700));
+
+        suiteTimers.push(window.setTimeout(() => {
+          favicon.badge(4, { bgColor: "#ef4444", textColor: "#ffffff" });
+        }, 1400));
+
+        suiteTimers.push(window.setTimeout(() => {
+          favicon.status("warning", { warningColor: "#f59e0b" });
+        }, 2100));
+
+        suiteTimers.push(window.setTimeout(() => {
+          favicon.pulse({ color: "#3b82f6", periodMs: 1000, tickMs: 60 });
+          log("Quick suite complete (pulse active)");
+        }, 2800));
+      });
+
+      log("Ready. Use any control and inspect this tab favicon.");
+    </script>
   </body>
 </html>

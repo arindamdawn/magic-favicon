@@ -5,13 +5,13 @@
     "moduleResolution": "Bundler",
     "strict": true,
     "declaration": true,
-    "declarationMap": false,
+    "declarationMap": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "isolatedModules": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["DOM", "ES2020"],
+    "lib": ["DOM", "ES2022"],
     "types": ["vitest/globals"]
   },
   "include": ["src", "test"]

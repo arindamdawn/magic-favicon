@@ -1,0 +1,11 @@
+.github
+.changeset
+demo
+test
+vitest.config.ts
+tsconfig.json
+.eslintrc.json
+.prettierrc
+*.config.ts
+.env*
+README.md

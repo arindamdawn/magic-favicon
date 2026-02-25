@@ -21,6 +21,7 @@ type MockCtx = {
 };
 
 declare global {
+  // eslint-disable-next-line no-var
   var __mockCanvasCtx: MockCtx;
 }
 
