@@ -1,4 +1,4 @@
-type StatusKind = "success" | "warning" | "error";
+type StatusKind = "success" | "warning" | "error" | "cross" | "check";
 
 export interface SharedOptions {
   preserveBase?: boolean;
@@ -235,7 +235,11 @@ export class MagicFavicon {
           ? options.warningColor ?? this.defaults.warningColor ?? "#f59e0b"
           : kind === "error"
             ? options.errorColor ?? this.defaults.errorColor ?? "#ef4444"
-            : kindOrColor;
+            : kind === "cross"
+              ? options.errorColor ?? this.defaults.errorColor ?? "#ef4444"
+              : kind === "check"
+                ? options.successColor ?? this.defaults.successColor ?? "#22c55e"
+                : kindOrColor;
 
     this.render(
       (ctx, size) => {
@@ -243,6 +247,33 @@ export class MagicFavicon {
         const r = Math.round(size * 0.18 * scale);
         const x = size - r - 2;
         const y = size - r - 2;
+
+        if (kind === "cross" || kind === "check") {
+          const lineWidth = Math.max(2, Math.round(size * 0.12 * scale));
+          ctx.strokeStyle = color;
+          ctx.lineWidth = lineWidth;
+          ctx.lineCap = "round";
+
+          if (kind === "cross") {
+            const offset = r * 0.5;
+            ctx.beginPath();
+            ctx.moveTo(x - offset, y - offset);
+            ctx.lineTo(x + offset, y + offset);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x + offset, y - offset);
+            ctx.lineTo(x - offset, y + offset);
+            ctx.stroke();
+          } else {
+            ctx.beginPath();
+            ctx.moveTo(x - r * 0.5, y);
+            ctx.lineTo(x - r * 0.1, y + r * 0.4);
+            ctx.lineTo(x + r * 0.5, y - r * 0.4);
+            ctx.stroke();
+          }
+          return;
+        }
+
         const shape = options.shape ?? "dot";
         ctx.fillStyle = color;
         if (shape === "square") {
