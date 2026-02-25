@@ -14,15 +14,7 @@ jobs:
       id-token: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
-
-      - name: Check if version already published
-        run: |
-          VERSION=$(node -e 'console.log(require("./package.json").version)')
-          if npm view magic-favicon@$VERSION version &>/dev/null; then
-            echo "Version $VERSION already published. Skipping release."
-            exit 1
-          fi
+        uses: actions/checkout@v4
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -30,7 +22,7 @@ jobs:
           version: 10
 
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
@@ -44,20 +36,11 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Validate
-        run: pnpm run check
-
-      - name: Verify npm identity
-        run: npm whoami
+      - name: Create Release PR or Publish
+        uses: changesets/action@v1
+        with:
+          version: pnpm changeset version
+          publish: pnpm release
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Publish to npm
-        run: pnpm publish --access public --no-git-checks
-
-      - name: Create GitHub Release
-        run: |
-          TAG_NAME="v$(node -e 'console.log(require(\"./package.json\").version)')"
-          gh release create "$TAG_NAME" \
-            --generate-notes \
-            --title "$TAG_NAME"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
