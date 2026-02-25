@@ -249,13 +249,18 @@ export class MagicFavicon {
         const y = size - r - 2;
 
         if (kind === "cross" || kind === "check") {
-          const lineWidth = Math.max(2, Math.round(size * 0.12 * scale));
-          ctx.strokeStyle = color;
+          ctx.fillStyle = color;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+
+          const lineWidth = Math.max(2, Math.round(size * 0.1 * scale));
+          ctx.strokeStyle = "#ffffff";
           ctx.lineWidth = lineWidth;
           ctx.lineCap = "round";
 
           if (kind === "cross") {
-            const offset = r * 0.5;
+            const offset = r * 0.45;
             ctx.beginPath();
             ctx.moveTo(x - offset, y - offset);
             ctx.lineTo(x + offset, y + offset);
@@ -266,9 +271,9 @@ export class MagicFavicon {
             ctx.stroke();
           } else {
             ctx.beginPath();
-            ctx.moveTo(x - r * 0.5, y);
-            ctx.lineTo(x - r * 0.1, y + r * 0.4);
-            ctx.lineTo(x + r * 0.5, y - r * 0.4);
+            ctx.moveTo(x - r * 0.4, y);
+            ctx.lineTo(x - r * 0.1, y + r * 0.35);
+            ctx.lineTo(x + r * 0.4, y - r * 0.35);
             ctx.stroke();
           }
           return;
